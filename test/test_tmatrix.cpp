@@ -73,7 +73,7 @@ TEST(TDynamicMatrix, throws_when_set_element_with_too_large_index)
     ASSERT_ANY_THROW(m.at(5)[0] = 5);
 }
 
-TEST(TDynamicMatrix, can_assign_matrix_to_itself)
+/*TEST(TDynamicMatrix, can_assign_matrix_to_itself)
 {
     TDynamicMatrix<int> m(2);
     m[0][0] = 1; m[0][1] = 2;
@@ -82,6 +82,25 @@ TEST(TDynamicMatrix, can_assign_matrix_to_itself)
     ASSERT_NO_THROW(m = m);
 
     EXPECT_EQ(1, m[0][0]);
+}*/
+// Тест 1: Безопасность
+TEST(TDynamicMatrix, self_assignment_does_not_throw)
+{
+    TDynamicMatrix<int> m(2);
+    ASSERT_NO_THROW(m = m);
+}
+
+// Тест 2: Корректность данных  
+TEST(TDynamicMatrix, self_assignment_preserves_matrix)
+{
+    TDynamicMatrix<int> m(2);
+    m[0][0] = 1; m[0][1] = 2;
+    m[1][0] = 3; m[1][1] = 4;
+
+    TDynamicMatrix<int> copy = m;  // Сохраняем копию
+    m = m;                        // Самоприсваивание
+
+    EXPECT_EQ(copy, m);  // Матрица должна остаться неизменной
 }
 
 TEST(TDynamicMatrix, can_assign_matrices_of_equal_size)
